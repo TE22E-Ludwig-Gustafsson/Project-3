@@ -17,7 +17,7 @@ CREATE TABLE Tickets (
     UserId INT NOT NULL,
     StatusId INT NOT NULL,
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
+    FOREIGN KEY (UserId) REFERENCES Users(UserID),
     FOREIGN KEY (StatusId) REFERENCES TicketStatus(id)
 )
 
