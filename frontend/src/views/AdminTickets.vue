@@ -5,12 +5,12 @@
       <li v-for="ticket in tickets" :key="ticket.id">
         {{ ticket.title }} - {{ ticket.description }} - {{ ticket.status }}
         <select v-model="ticket.status">
-          <option>Open</option>
-          <option>In Progress</option>
-          <option>Resolved</option>
-          <option>Closed</option>
+          <option>öppen</option>
+          <option>Pågående</option>
+          <option>Löst</option>
+          <option>Stängd</option>
         </select>
-        <button @click="updateStatus(ticket)">Update Status</button>
+        <button @click="updateStatus(ticket)">updatera status</button>
       </li>
     </ul>
   </div>
@@ -22,15 +22,15 @@ export default {
   data() {
     return {
       tickets: [
-        { id: 1, title: 'Issue 1', description: 'Description 1', status: 'Open' },
-        { id: 2, title: 'Issue 2', description: 'Description 2', status: 'In Progress' },
+        { id: 1, title: 'ärende 1', description: 'Beskrivning 1', status: 'öppen' },
+        { id: 2, title: 'ärende 2', description: 'Beskrivning 2', status: 'Pågående' },
       ],
     };
   },
   methods: {
     updateStatus(ticket) {
       // Logik för att uppdatera status
-      console.log(`Updated ticket ${ticket.id} to status ${ticket.status}`);
+      console.log(`Uppdaterade ärende ${ticket.id} till status ${ticket.status}`);
     },
   },
 };
