@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <h1>Login / Skapa konto</h1>
+  <div class="auth-container">
+    <h1 class="title">{{ isRegisterMode ? 'Skapa konto' : 'Logga in' }}</h1>
 
-    <form @submit.prevent="onLogin">
-      <h2>Logga in</h2>
-      <input v-model="loginEmail" type="email" placeholder="Email" required />
-      <input v-model="loginPassword" type="password" placeholder="Lösenord" required />
-      <button type="submit">Logga in</button>
-    </form>
+    <!-- Toggle mellan registrera / logga in -->
+    <div class="toggle">
+      <button
+        :class="['toggle-btn', { active: isRegisterMode }]"
+        @click="isRegisterMode = true"
+      >
+        Registrera
+      </button>
+      <button
+        :class="['toggle-btn', { active: !isRegisterMode }]"
+        @click="isRegisterMode = false"
+      >
+        Logga in
+      </button>
+    </div>
 
-    <hr />
-
-    <form @submit.prevent="onRegister">
+    <!-- Registrera -->
+    <form v-if="isRegisterMode" @submit.prevent="onRegister" class="card">
       <h2>Skapa konto</h2>
-      <input v-model="registerName" placeholder="Namn" required />
-      <input v-model="registerEmail" type="email" placeholder="Email" required />
-      <input v-model="registerPassword" type="password" placeholder="Lösenord" required />
+      <input v-model="registerName" placeholder="Namn" required class="input" />
+      <input v-model="registerEmail" type="email" placeholder="Email" required class="input" />
+      <input v-model="registerPassword" type="password" placeholder="Lösenord" required class="input" />
 
-      <select v-model="role">
+      <select v-model="role" class="input">
         <option value="user">User</option>
         <option value="admin">Admin</option>
       </select>
@@ -28,13 +36,22 @@
         v-model="adminSecret"
         type="password"
         placeholder="Hemlig admin-kod (3 siffror)"
+        class="input"
         required
       />
 
-      <button type="submit">Skapa konto</button>
+      <button type="submit" class="primary-btn">Skapa konto</button>
     </form>
 
-    <p v-if="error" style="color:red">{{ error }}</p>
+    <!-- Logga in -->
+    <form v-else @submit.prevent="onLogin" class="card">
+      <h2>Logga in</h2>
+      <input v-model="loginEmail" type="email" placeholder="Email" required class="input" />
+      <input v-model="loginPassword" type="password" placeholder="Lösenord" required class="input" />
+      <button type="submit" class="primary-btn">Logga in</button>
+    </form>
+
+    <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
 
@@ -45,6 +62,7 @@ export default {
   name: 'Login',
   data() {
     return {
+      isRegisterMode: true,
       loginEmail: '',
       loginPassword: '',
       registerName: '',
@@ -106,5 +124,67 @@ export default {
 </script>
 
 <style scoped>
+.auth-container {
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
 
+.title {
+  margin-bottom: 20px;
+}
+
+.toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.toggle-btn.active {
+  background: #007bff;
+  color: #fff;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.primary-btn {
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #0069d9;
+}
+
+.error {
+  margin-top: 12px;
+  color: red;
+}
 </style>
