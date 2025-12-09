@@ -4,17 +4,22 @@
     <form @submit.prevent="createTicket">
       <input v-model="title" placeholder="Titel" />
       <textarea v-model="description" placeholder="Beskrivning"></textarea>
-      <button type="submit">Skapa ärende</button>
+      <button type="submit" :disabled="saving">
+        {{ saving ? 'Sparar...' : 'Skapa ärende' }}
+      </button>
     </form>
+    <p v-if="error" style="color: red">{{ error }}</p>
     <ul>
       <li v-for="ticket in tickets" :key="ticket.id">
-        {{ ticket.title }} - {{ ticket.description }} - {{ ticket.status }}
+        {{ ticket.title }} - {{ ticket.description }} - {{ ticket.statusName }}
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'UserTickets',
   data() {
@@ -22,20 +27,54 @@ export default {
       title: '',
       description: '',
       tickets: [],
+      saving: false,
+      error: '',
+      currentUserId: 2, // tillfälligt: Regular User (user@test.se)
+      defaultStatusId: 1, // tillfälligt: "Öppen"
     };
   },
+  created() {
+    this.loadTickets();
+  },
   methods: {
-    createTicket() {
-      // Logik för att skapa ett nytt ärende
-      const newTicket = {
-        id: this.tickets.length + 1,
-        title: this.title,
-        description: this.description,
-        status: 'öppen',
-      };
-      this.tickets.push(newTicket);
-      this.title = '';
-      this.description = '';
+    async loadTickets() {
+      try {
+        const response = await axios.get('http://localhost:5000/api/tickets');
+        // Anpassa till backend-modellen (Status.Name)
+        this.tickets = response.data.map(t => ({
+          id: t.id,
+          title: t.title,
+          description: t.description,
+          statusName: t.status ? t.status.name : '',
+        }));
+      } catch (err) {
+        this.error = 'Kunde inte hämta ärenden.';
+        console.error(err);
+      }
+    },
+    async createTicket() {
+      this.error = '';
+      if (!this.title) {
+        this.error = 'Titel krävs.';
+        return;
+      }
+      this.saving = true;
+      try {
+        await axios.post('http://localhost:5000/api/tickets', {
+          title: this.title,
+          description: this.description,
+          userId: this.currentUserId,
+          statusId: this.defaultStatusId,
+        });
+        this.title = '';
+        this.description = '';
+        await this.loadTickets();
+      } catch (err) {
+        this.error = 'Kunde inte spara ärendet.';
+        console.error(err);
+      } finally {
+        this.saving = false;
+      }
     },
   },
 };
