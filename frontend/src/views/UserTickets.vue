@@ -29,8 +29,8 @@ export default {
       tickets: [],
       saving: false,
       error: '',
-      currentUserId: 2, // tillfälligt: Regular User (user@test.se)
-      defaultStatusId: 1, // tillfälligt: "Öppen"
+      currentUserId: 2, 
+      defaultStatusId: 1, 
     };
   },
   created() {

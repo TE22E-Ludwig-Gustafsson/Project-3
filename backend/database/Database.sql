@@ -2,6 +2,7 @@ CREATE TABLE Users (
     UserID INT PRIMARY KEY identity(1,1),
     Name NVARCHAR(100) NOT NULL,
     Email NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(200) NOT NULL,
     IsAdmin BIT NOT NULL
 );
 

@@ -91,7 +91,7 @@ namespace Backend.Logic
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var query = "SELECT UserID, Name, Email, IsAdmin FROM Users WHERE Email = @Email";
+            var query = "SELECT UserID, Name, Email, PasswordHash, IsAdmin FROM Users WHERE Email = @Email";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Email", email);
@@ -104,7 +104,8 @@ namespace Backend.Logic
                                 UserID = reader.GetInt32(0),
                                 Name = reader.GetString(1),
                                 Email = reader.GetString(2),
-                                IsAdmin = reader.GetBoolean(3)
+                                PasswordHash = reader.GetString(3),
+                                IsAdmin = reader.GetBoolean(4)
                             };
                         }
                     }
@@ -118,11 +119,12 @@ namespace Backend.Logic
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var query = "INSERT INTO Users (Name, Email, IsAdmin) VALUES (@Name, @Email, @IsAdmin)";
+                var query = "INSERT INTO Users (Name, Email, PasswordHash, IsAdmin) VALUES (@Name, @Email, @PasswordHash, @IsAdmin)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Name", user.Name);
                     command.Parameters.AddWithValue("@Email", user.Email);
+                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
                     command.Parameters.AddWithValue("@IsAdmin", user.IsAdmin);
                     command.ExecuteNonQuery();
                 }

@@ -14,17 +14,31 @@ namespace Backend.Controllers
         public ActionResult<User> Login([FromBody] LoginRequest request)
         {
             var user = _dbHandler.GetUserByEmail(request.Email);
-            if (user != null)
+            if (user != null && user.PasswordHash == request.Password)
             {
-                // Här kan du lägga till lösenordskontroll om du har det
                 return Ok(user);
             }
             return Unauthorized();
         }
 
-        [HttpPost]
-        public ActionResult CreateUser([FromBody] User user)
+        [HttpPost("register")]
+        public ActionResult CreateUser([FromBody] RegisterRequest request)
         {
+            // enkel kontroll: admin måste ange korrekt 3-siffrig kod
+            const string adminSecretCode = "123"; 
+
+            if (request.IsAdmin && request.AdminSecret != adminSecretCode)
+            {
+                return BadRequest("Fel hemlig admin-kod.");
+            }
+
+            var user = new User
+            {
+                Name = request.Name,
+                Email = request.Email,
+                PasswordHash = request.Password,
+                IsAdmin = request.IsAdmin
+            };
             _dbHandler.CreateUser(user);
             return Ok();
         }
@@ -33,5 +47,15 @@ namespace Backend.Controllers
     public class LoginRequest
     {
         public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class RegisterRequest
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public bool IsAdmin { get; set; }
+        public string AdminSecret { get; set; }
     }
 }
