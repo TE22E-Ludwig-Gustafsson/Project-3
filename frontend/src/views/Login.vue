@@ -125,32 +125,37 @@ export default {
 
 <style scoped>
 .auth-container {
-  max-width: 400px;
-  margin: 40px auto;
+  max-width: 420px;
+  margin: 60px auto;
   text-align: center;
-  font-family: Arial, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .title {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  font-size: 1.8rem;
 }
 
 .toggle {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #d0d0d0;
 }
 
 .toggle-btn {
   flex: 1;
   padding: 8px 12px;
-  border: 1px solid #ccc;
+  border: none;
   background: #f5f5f5;
   cursor: pointer;
+  font-size: 0.95rem;
 }
 
 .toggle-btn.active {
-  background: #007bff;
+  background: #2563eb;
   color: #fff;
 }
 
@@ -158,33 +163,45 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #fff;
+  padding: 20px 18px 18px;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+.card h2 {
+  margin-bottom: 4px;
 }
 
 .input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  font-size: 0.95rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb33;
 }
 
 .primary-btn {
-  padding: 10px;
-  border-radius: 4px;
+  padding: 9px 12px;
+  border-radius: 6px;
   border: none;
-  background: #007bff;
+  background: #2563eb;
   color: #fff;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .primary-btn:hover {
-  background: #0069d9;
+  background: #1d4ed8;
 }
 
 .error {
-  margin-top: 12px;
-  color: red;
+  margin-top: 14px;
+  color: #b91c1c;
 }
 </style>

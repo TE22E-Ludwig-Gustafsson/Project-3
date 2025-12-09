@@ -25,10 +25,22 @@ namespace Backend.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}/status")]
-        public ActionResult UpdateStatus(int id, [FromBody] int statusId)
+        public class UpdateStatusRequest
         {
-            _dbHandler.UpdateTicketStatus(id, statusId);
+            public int StatusId { get; set; }
+        }
+
+        [HttpPut("{id}/status")]
+        public ActionResult UpdateStatus(int id, [FromBody] UpdateStatusRequest request)
+        {
+            _dbHandler.UpdateTicketStatus(id, request.StatusId);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteTicket(int id)
+        {
+            _dbHandler.DeleteTicket(id);
             return Ok();
         }
     }

@@ -86,6 +86,20 @@ namespace Backend.Logic
             }
         }
 
+        public void DeleteTicket(int ticketId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                var query = "DELETE FROM Tickets WHERE Id = @Id";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", ticketId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public User GetUserByEmail(string email)
         {
             using (var connection = new SqlConnection(_connectionString))
