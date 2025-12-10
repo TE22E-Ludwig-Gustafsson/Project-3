@@ -13,7 +13,12 @@
     </div>
 
     <div class="tickets-list-card">
-      <h2>Alla ärenden</h2>
+      <div class="tickets-list-header">
+        <h2>Alla ärenden</h2>
+        <button type="button" class="secondary-btn" @click="loadTickets">
+          Uppdatera lista
+        </button>
+      </div>
       <ul v-if="tickets.length" class="ticket-list">
         <li v-for="ticket in tickets" :key="ticket.id" class="ticket-item">
           <div class="ticket-header">
@@ -124,7 +129,7 @@ export default {
 }
 
 .tickets-list-card h2 {
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 .form-grid {
@@ -183,6 +188,27 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.tickets-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.secondary-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.secondary-btn:hover {
+  background: #e5e7eb;
 }
 
 .ticket-item {

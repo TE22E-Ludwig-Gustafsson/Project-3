@@ -1,7 +1,12 @@
 <template>
   <div class="admin-page">
     <div class="tickets-card">
-      <h1>Admin - alla ärenden</h1>
+      <div class="tickets-header">
+        <h1>Admin - alla ärenden</h1>
+        <button type="button" class="secondary-btn" @click="loadTickets">
+          Uppdatera lista
+        </button>
+      </div>
       <ul v-if="tickets.length" class="ticket-list">
         <li v-for="ticket in tickets" :key="ticket.id" class="ticket-item">
           <div class="ticket-header">
@@ -118,7 +123,7 @@ export default {
 }
 
 .tickets-card h1 {
-  margin-bottom: 14px;
+  margin: 0;
 }
 
 .ticket-list {
@@ -128,6 +133,27 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.tickets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.secondary-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.secondary-btn:hover {
+  background: #e5e7eb;
 }
 
 .ticket-item {
