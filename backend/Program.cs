@@ -1,6 +1,33 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+// Ladda miljövariabler från .env-fil (t.ex. ADMIN_SECRET)
+var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+if (File.Exists(envPath))
+{
+    foreach (var line in File.ReadAllLines(envPath))
+    {
+        var trimmed = line.Trim();
+        if (string.IsNullOrEmpty(trimmed) || trimmed.StartsWith("#"))
+        {
+            continue;
+        }
+
+        var parts = trimmed.Split('=', 2);
+        if (parts.Length == 2)
+        {
+            var key = parts[0].Trim();
+            var value = parts[1].Trim();
+            if (!string.IsNullOrEmpty(key))
+            {
+                Environment.SetEnvironmentVariable(key, value);
+            }
+        }
+    }
+}
 
 var builder = WebApplication.CreateBuilder(args);
 

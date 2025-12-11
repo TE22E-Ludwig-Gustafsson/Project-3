@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Logic;
 using Backend.Models;
@@ -24,12 +25,21 @@ namespace Backend.Controllers
         [HttpPost("register")]
         public ActionResult CreateUser([FromBody] RegisterRequest request)
         {
-            // enkel kontroll: admin måste ange korrekt 3-siffrig kod
-            const string adminSecretCode = "123"; 
+            // enkel kontroll: admin måste ange korrekt hemlig kod från miljövariabel (ADMIN_SECRET)
+            var adminSecretCode = Environment.GetEnvironmentVariable("ADMIN_SECRET");
 
-            if (request.IsAdmin && request.AdminSecret != adminSecretCode)
+            if (request.IsAdmin)
             {
-                return BadRequest("Fel hemlig admin-kod.");
+                if (string.IsNullOrEmpty(adminSecretCode))
+                {
+                    // Konfigurationsfel på servern – ADMIN_SECRET saknas
+                    return StatusCode(500, "Admin-hemlighet saknas i server-konfigurationen.");
+                }
+
+                if (!string.Equals(request.AdminSecret, adminSecretCode))
+                {
+                    return BadRequest("Fel hemlig admin-kod.");
+                }
             }
 
             var user = new User
