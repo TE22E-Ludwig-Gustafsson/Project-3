@@ -7,7 +7,13 @@ namespace Backend.Logic
 {
     public class DatabaseHandler
     {
-        private readonly string _connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=Project3DB;Trusted_Connection=True;Connection Timeout=30;";
+        private readonly string _connectionString;
+
+        public DatabaseHandler()
+        {
+            _connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+                ?? @"Server=(localdb)\MSSQLLocalDB;Database=Project3DB;Trusted_Connection=True;Connection Timeout=30;";
+        }
 
         public List<Ticket> GetTickets()
         {

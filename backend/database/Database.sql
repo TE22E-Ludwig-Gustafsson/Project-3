@@ -27,3 +27,8 @@ INSERT INTO TicketStatus (Name) VALUES
 ('Pågående'),
 ('Löst'),
 ('Stängd');
+
+-- Testanvändare
+INSERT INTO Users (Name, Email, PasswordHash, IsAdmin) VALUES 
+('Admin', 'ludwigbd@icloud.com', '123', 1),
+('user', 'ludwigbd@icloud.co', '123', 0);
