@@ -8,4 +8,4 @@
 ## Admin
 - Admin ska kunna se alla tickets.
 - Admin ska kunna ändra ticketstatus.
-- Admin ska kunna tilldela ticket till en user.
+
